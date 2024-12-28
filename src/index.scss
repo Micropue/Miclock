@@ -1,0 +1,293 @@
+* {
+    margin: 0;
+    user-select: none;
+}
+
+@font-face {
+    font-family: 'audex-italic';
+    src: url(fonts/Audex-Italic.ttf);
+}
+
+@font-face {
+    font-family: 'audex-regular';
+    src: url(fonts/Audex-Regular.ttf);
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: transparent;
+    -webkit-app-region: drag; //开启可拖动窗口
+
+    #app {
+        background-color: rgba(0, 0, 0, 1);
+        width: 100%;
+        height: 100%;
+        color: white;
+        padding: 50px;
+        box-sizing: border-box;
+        align-items: center;
+        font-family: 'audex-regular';
+    }
+}
+
+#time {
+    font-size: 25vw;
+    display: flex;
+    align-items: end;
+
+
+    p {
+        filter: blur(30px);
+        opacity: 0;
+        transform: scale(0.7);
+        transition: 1s;
+        transition-timing-function: cubic-bezier(0.01, 0, 0.02, 1.49);
+
+        @each $i in 1 2 {
+            &:nth-child(#{$i}) {
+                transition: #{$i * 0.5}s;
+            }
+        }
+
+        &.show {
+            filter: blur(0px);
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    #small {
+        font-size: 7vw !important;
+    }
+}
+
+#date {
+    font-size: 6vw;
+}
+
+#battery {
+    --value: 0%;
+    --rocate: -90deg;
+    position: fixed;
+    bottom: 2vw;
+    right: 2vw;
+    width: 6vw;
+    height: 6vw;
+    border-radius: 50%;
+    $green: #00ff55;
+    background: conic-gradient($green 0%, $green var(--value), #4d4d4d62 var(--value));
+    backdrop-filter: blur(30px);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 1s;
+    transition-timing-function: cubic-bezier(0.01, 0, 0.02, 1.49);
+    opacity: 0;
+    transform: scale(0.5);
+    filter: blur(30px);
+
+    &.show {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
+    }
+
+    p {
+        z-index: 100;
+    }
+
+    &::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        content: '';
+        width: 4vw;
+        height: 4vw;
+        background-color: black;
+        border-radius: 50%;
+        z-index: 99;
+        transition: 0.3s;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 1vw;
+        height: 1vw;
+        background-color: $green;
+        border-radius: 50%;
+        z-index: 98;
+        transition: 0.3s;
+    }
+
+    .green-line {
+        width: 50%;
+        height: 2px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        transform-origin: 0% 50%;
+        transform: rotate(var(--rocate));
+        transition: 0.3s;
+
+        &::after {
+            content: '';
+            z-index: 97;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            width: 1vw;
+            height: 1vw;
+            background-color: $green;
+            border-radius: 50%;
+            z-index: 98;
+        }
+    }
+}
+
+#clip {
+    position: fixed;
+    z-index: 1000;
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 1s;
+
+    .text {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    }
+
+    h1 {
+        font-size: 10vw;
+        font-weight: 900;
+
+        span {
+            animation-name: start-name;
+            animation-direction: normal;
+        }
+
+        @for $i from 1 through 8 {
+            span:nth-child(#{$i}) {
+                animation-duration: #{$i * 0.6}s;
+            }
+        }
+
+        @keyframes start-name {
+            0% {
+                opacity: 0;
+                filter: blur(30px);
+            }
+        }
+    }
+
+    p {
+        font-family: 'audex-regular';
+        font-size: 5vw;
+        background:
+            radial-gradient(circle at 50% 0,
+                rgba(255, 0, 0, 0.5),
+                rgba(255, 0, 0, 0) 70.71%),
+            radial-gradient(circle at 6.7% 75%,
+                rgba(0, 0, 255, 0.5),
+                rgba(0, 0, 255, 0) 70.71%),
+            radial-gradient(circle at 93.3% 75%,
+                rgba(0, 255, 0, 0.5),
+                rgba(0, 255, 0, 0) 70.71%) beige;
+        background-clip: text;
+        color: transparent;
+        animation: start-app 5s cubic-bezier(0, 0, 0, 1) normal;
+
+        @keyframes start-app {
+            0% {
+                opacity: 0;
+                filter: blur(30px);
+                transform: translateX(-100px);
+            }
+        }
+    }
+
+    &.hide {
+        filter: blur(30px);
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+#date {
+    opacity: 0;
+    filter: blur(30px);
+    transition: 2s;
+    transform: scale(0.5);
+    width: fit-content;
+
+    &.show {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
+    }
+}
+
+#system {
+    font-size: 30px;
+    margin-top: 5vh;
+    opacity: 0;
+    filter: blur(30px);
+    transform: translateX(-100px);
+    transition: 1s;
+    .cpu{
+        font-size:1.5em;
+    }
+    &.show {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateX(0px);
+    }
+
+
+    .memory {
+        width: fit-content;
+    }
+
+    m-rang {
+        background-color: #4d4d4d62;
+        width: 100%;
+        height: 10px;
+        display: block;
+        border-radius: 100px;
+        margin-top: 2vh;
+
+        m-value {
+            background-color: #00ff55;
+            height: 100%;
+            width: 0%;
+            display: block;
+            transition: 1s;
+            transition-timing-function: cubic-bezier(0, 0, 0, 1);
+            border-radius: 100px;
+            overflow: hidden;
+
+            &.show {
+                width: var(--value);
+            }
+        }
+    }
+}

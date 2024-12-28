@@ -1,0 +1,46 @@
+{
+  "name": "miclock",
+  "version": "1.0.0",
+  "description": "The most similar clock app by micropue",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": [],
+  "author": "micropue.com.cn",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^25.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "cn.com.micropue.clock",
+    "productName": "Miclock",
+    "icon": "./asset/ApplicationIcon.icns",
+    "files": [
+      "src/",
+      "node_modules/",
+      "package.json",
+      "main.js"
+    ],
+    "directories": {
+      "output": "build"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "./asset/ApplicationIcon.icns",
+      "target": [
+        {
+          "target": "default",
+          "arch": "universal"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "path": "^0.12.7",
+    "systeminformation": "^5.0.0"
+  }
+}
